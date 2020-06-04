@@ -4,7 +4,6 @@ import 'package:doenlaod_app/utilities/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-
 class NewsListState extends State<NewsList> {
   List<NewsArticle> _newsArticles = List<NewsArticle>();
 
@@ -18,6 +17,7 @@ class NewsListState extends State<NewsList> {
     Webservice().load(NewsArticle.all).then((newsArticles) => {
           setState(() => {_newsArticles = newsArticles})
         });
+    // print(_newsArticles);
   }
 
   ListTile _buildItemsForListView(BuildContext context, int index) {
@@ -34,8 +34,9 @@ class NewsListState extends State<NewsList> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('News'),
+          title: Center(child: Text('Daily News')),
         ),
+        drawer: Drawer(),
         body: ListView.builder(
           itemCount: _newsArticles.length,
           itemBuilder: _buildItemsForListView,

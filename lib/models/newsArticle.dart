@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:doenlaod_app/services/webservice.dart';
 import 'package:doenlaod_app/utilities/constants.dart';
 
-
 class NewsArticle {
   final String title;
   final String descrption;
@@ -24,6 +23,7 @@ class NewsArticle {
         parse: (response) {
           final result = json.decode(response.body);
           Iterable list = result['articles'];
+          print(list);
           return list.map((model) => NewsArticle.fromJson(model)).toList();
         });
   }
