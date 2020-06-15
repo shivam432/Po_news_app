@@ -1,14 +1,26 @@
-import 'package:doenlaod_app/widgets/newsList.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:doenlaod_app/services/auth.dart';
+import 'package:doenlaod_app/user.dart';
+import 'package:doenlaod_app/views/homepage.dart';
+import 'package:doenlaod_app/wrapper.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-void main() => runApp(App());
+void main() => runApp(MyApp());
 
-class App extends StatelessWidget {
+class MyApp extends StatelessWidget {
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: "Networking", home: NewsList());
+    return StreamProvider<User>.value(
+      value: AuthService().user,
+      child: MaterialApp(
+        title: 'News_App',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primaryColor: Colors.white,
+        ),
+        home: Wrapper(),
+      ),
+    );
   }
 }
