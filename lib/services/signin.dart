@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:doenlaod_app/services/auth.dart';
+import 'package:doenlaod_app/services/reset_pass.dart';
 import 'package:flutter/material.dart';
 
 class SignIn extends StatefulWidget {
@@ -19,6 +20,7 @@ class _SignInState extends State<SignIn> {
   String password = '';
   String error = '';
   bool loading = false;
+  bool show_pass = false;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +29,7 @@ class _SignInState extends State<SignIn> {
         : Scaffold(
             backgroundColor: Colors.blueAccent,
             appBar: AppBar(
-              backgroundColor: Colors.blueAccent,
+              backgroundColor: Colors.lightBlue,
               elevation: 0.0,
               title: Text('Sign In To News++'),
               actions: <Widget>[
@@ -51,9 +53,12 @@ class _SignInState extends State<SignIn> {
                       SizedBox(height: 20.0),
                       TextFormField(
                         decoration: InputDecoration(
-                          hintText: "Email",
+                          labelText: "Email ID",
+                          hintText: "Enter your Email ID",
                           fillColor: Colors.white,
                           filled: true,
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(32.0)),
                         ),
                         textInputAction: TextInputAction.next,
                         focusNode: _usernamefocus,
@@ -72,10 +77,23 @@ class _SignInState extends State<SignIn> {
                       SizedBox(height: 20.0),
                       TextFormField(
                         decoration: InputDecoration(
-                          hintText: "password",
-                          fillColor: Colors.white,
-                          filled: true,
-                        ),
+                            labelText: "password",
+                            hintText: "Enter your password",
+                            fillColor: Colors.white,
+                            filled: true,
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(32.0)),
+                            suffixIcon: IconButton(
+                              icon: show_pass
+                                  ? Icon(Icons.visibility)
+                                  : Icon(Icons.visibility_off),
+                              color: Colors.black,
+                              onPressed: () {
+                                setState(() {
+                                  show_pass = !show_pass;
+                                });
+                              },
+                            )),
                         textInputAction: TextInputAction.done,
                         focusNode: _passfocus,
                         onFieldSubmitted: (value) {
@@ -83,7 +101,7 @@ class _SignInState extends State<SignIn> {
                         },
                         validator: (val) =>
                             val.length < 6 ? 'Password is too short' : null,
-                        obscureText: true,
+                        obscureText: !show_pass,
                         onChanged: (val) {
                           setState(() {
                             password = val;
@@ -92,6 +110,7 @@ class _SignInState extends State<SignIn> {
                       ),
                       SizedBox(height: 20.0),
                       RaisedButton(
+                        padding: EdgeInsets.fromLTRB(50, 0, 50, 0),
                         shape: RoundedRectangleBorder(
                           borderRadius: new BorderRadius.circular(30),
                         ),
@@ -117,6 +136,21 @@ class _SignInState extends State<SignIn> {
                           } else {
                             return null;
                           }
+                        },
+                      ),
+                      SizedBox(height: 5),
+                      FlatButton(
+                        child: Text(
+                          "Forgot password?",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold,
+                            decoration: TextDecoration.underline,
+                          ),
+                        ),
+                        onPressed: () {
+                          gotoresetscreen(context);
                         },
                       ),
                       SizedBox(height: 15),
@@ -156,7 +190,7 @@ class _SignInState extends State<SignIn> {
                         shape: RoundedRectangleBorder(
                           borderRadius: new BorderRadius.circular(30),
                         ),
-                        color: Colors.black,
+                        color: Colors.white,
                         child: new Row(
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
@@ -176,7 +210,7 @@ class _SignInState extends State<SignIn> {
                                 child: new Text(
                                   "Sign in with Google",
                                   style: TextStyle(
-                                      color: Colors.white,
+                                      color: Colors.black,
                                       fontWeight: FontWeight.bold),
                                 )),
                           ],
@@ -207,6 +241,24 @@ class _SignInState extends State<SignIn> {
             ),
           );
   }
+}
+
+void gotoresetscreen(BuildContext context) async {
+  var result = await Navigator.push(
+      context,
+      new MaterialPageRoute(
+        builder: (BuildContext context) => new Resetpassword(),
+        fullscreenDialog: true,
+      ));
+  // Scaffold.of(context).showSnackBar(
+  //   SnackBar(
+  //     content: Text(
+  //       result,
+  //       style: TextStyle(color: Colors.red),
+  //     ),
+  //     duration: Duration(seconds: 3),
+  //   ),
+  // );
 }
 
 _fieldFocusChange(

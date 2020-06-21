@@ -39,6 +39,7 @@ class AuthService {
       print(e.toString());
     }
   }
+
 //sign In with google
   Future signinwithgoogle() async {
     try {
@@ -54,6 +55,11 @@ class AuthService {
     }
   }
 
+  //Reset the password
+  Future sendthepasswordresetlink(String email) async {
+    return _auth.sendPasswordResetEmail(email: email);
+  }
+
   //register with email and password
   Future registerwithemailndpassword(String email, String password) async {
     try {
@@ -67,6 +73,7 @@ class AuthService {
       print(e.toString());
     }
   }
+
   //sign-out
   Future signout() async {
     try {

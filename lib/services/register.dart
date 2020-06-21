@@ -18,6 +18,7 @@ class _RegisterState extends State<Register> {
   String password = '';
   String error = '';
   bool loading = false;
+  bool show_pass = false;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +27,7 @@ class _RegisterState extends State<Register> {
         : Scaffold(
             backgroundColor: Colors.blueAccent,
             appBar: AppBar(
-                backgroundColor: Colors.blueAccent,
+                backgroundColor: Colors.lightBlue,
                 elevation: 0.0,
                 title: Text('Register to News++'),
                 actions: <Widget>[
@@ -49,9 +50,12 @@ class _RegisterState extends State<Register> {
                       SizedBox(height: 20.0),
                       TextFormField(
                         decoration: InputDecoration(
-                          hintText: "Email",
+                          labelText: "Email ID",
+                          hintText: "Enter your Email ID",
                           fillColor: Colors.white,
                           filled: true,
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(32.0)),
                         ),
                         textInputAction: TextInputAction.next,
                         focusNode: _usernamefocus,
@@ -70,10 +74,23 @@ class _RegisterState extends State<Register> {
                       SizedBox(height: 20.0),
                       TextFormField(
                         decoration: InputDecoration(
-                          hintText: "Password",
-                          fillColor: Colors.white,
-                          filled: true,
-                        ),
+                            labelText: "password",
+                            hintText: "Enter your password",
+                            fillColor: Colors.white,
+                            filled: true,
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(32.0)),
+                            suffixIcon: IconButton(
+                              icon: show_pass
+                                  ? Icon(Icons.visibility)
+                                  : Icon(Icons.visibility_off),
+                              color: Colors.black,
+                              onPressed: () {
+                                setState(() {
+                                  show_pass = !show_pass;
+                                });
+                              },
+                            )),
                         textInputAction: TextInputAction.done,
                         focusNode: _passfocus,
                         onFieldSubmitted: (value) {
@@ -81,7 +98,7 @@ class _RegisterState extends State<Register> {
                         },
                         validator: (val) =>
                             val.length < 6 ? 'Password is too short' : null,
-                        obscureText: true,
+                        obscureText: !show_pass,
                         onChanged: (val) {
                           setState(() {
                             password = val;
@@ -90,13 +107,17 @@ class _RegisterState extends State<Register> {
                       ),
                       SizedBox(height: 20.0),
                       RaisedButton(
+                        padding: EdgeInsets.fromLTRB(50, 0, 50, 0),
                         shape: RoundedRectangleBorder(
                           borderRadius: new BorderRadius.circular(30),
                         ),
                         color: Colors.black,
                         child: Text(
                           'Register',
-                          style: TextStyle(color: Colors.white),
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 17),
                         ),
                         onPressed: () async {
                           if (_formkey.currentState.validate()) {
@@ -153,7 +174,7 @@ class _RegisterState extends State<Register> {
                         shape: RoundedRectangleBorder(
                           borderRadius: new BorderRadius.circular(30),
                         ),
-                        color: Colors.black,
+                        color: Colors.white,
                         child: new Row(
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
@@ -173,7 +194,7 @@ class _RegisterState extends State<Register> {
                                 child: new Text(
                                   "Register with Google",
                                   style: TextStyle(
-                                      color: Colors.white,
+                                      color: Colors.black,
                                       fontWeight: FontWeight.bold),
                                 )),
                           ],
